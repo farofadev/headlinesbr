@@ -80,7 +80,6 @@ func ScrapeHeadlines(portals []data.Portal) *[]data.Post {
 	wg.Wait()
 
 	return &posts
-
 }
 
 // StoreHeadlines Save headlines into database
