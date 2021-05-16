@@ -16,6 +16,10 @@ services:
       options:
         max-size: "500k"
         max-file: "2"
+    environment:
+      MONGO_HOST: ${MONGO_HOST:-mongo:27017}
+      MONGO_USERNAME: ${MONGO_USERNAME:-root}
+      MONGO_PASSWORD: ${MONGO_PASSWORD:-farofa}
     volumes:
       - ./:/go/src/app
     ports:
@@ -26,8 +30,9 @@ services:
     volumes:
       - mongo-data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: farofa
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-headlinesbr}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-farofa}
 
   mongo-express:
     image: mongo-express
@@ -35,5 +40,5 @@ services:
     ports:
       - ${FORWARD_MONGO_EXPRESS_PORT:-8081}:8081
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: farofa
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME:-root}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD:-farofa}

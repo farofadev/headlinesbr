@@ -2,15 +2,28 @@ package database
 
 import (
 	"context"
+	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetClient() *mongo.Client {
+func GetClient(ctx context.Context) (*mongo.Client, error) {
+	config := options.Client()
 
-	client, _ := mongo.Connect(context.Background(), options.Client().ApplyURI("mongodb://root:farofa@mongo:27017"))
+	config.SetAuth(options.Credential{
+		Username: os.Getenv("MONGO_USERNAME"),
+		Password: os.Getenv("MONGO_PASSWORD"),
+	})
 
-	return client
+	hosts := []string{
+		os.Getenv("MONGO_HOST"),
+	}
 
+	config.SetHosts(hosts)
+
+	return mongo.Connect(
+		ctx,
+		config,
+	)
 }

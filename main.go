@@ -16,38 +16,27 @@ import (
 )
 
 func main() {
-
 	router := httprouter.New()
 	router.GET("/", Index)
 	router.GET("/headlines", FetchHeadlines)
 
 	http.ListenAndServe(":8080", router)
-
 }
 
 func FetchHeadlines(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-
 	results := ScrapeHeadlines(data.Portals)
 
 	StoreHeadlines(*results)
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
-
-	// w.Header().Set("Location", "/")
-
-	// w.Write([]byte(""))
-
 }
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-
 	ctx := context.Background()
-	client := database.GetClient()
+	client, _ := database.GetClient(ctx)
 
-	postsCollection := client.Database("headlinesbr").Collection("posts")
-
-	results, _ := postsCollection.Find(ctx, bson.M{})
-
+	collection := client.Database("headlinesbr").Collection("posts")
+	results, _ := collection.Find(ctx, bson.M{})
 	bsonM := []bson.M{}
 
 	results.All(ctx, &bsonM)
@@ -56,7 +45,6 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	enc := json.NewEncoder(w)
 	enc.Encode(bsonM)
-
 }
 
 // ScrapeHeadlines Scrape headlines from web
@@ -88,6 +76,7 @@ func ScrapeHeadlines(portals []data.Portal) *[]data.Post {
 			wg.Done()
 		}(index)
 	}
+
 	wg.Wait()
 
 	return &posts
@@ -96,21 +85,15 @@ func ScrapeHeadlines(portals []data.Portal) *[]data.Post {
 
 // StoreHeadlines Save headlines into database
 func StoreHeadlines(posts []data.Post) {
-
 	ctx := context.Background()
-	client := database.GetClient()
-
-	postsCollection := client.Database("headlinesbr").Collection("posts")
+	client, _ := database.GetClient(ctx)
+	collection := client.Database("headlinesbr").Collection("posts")
 
 	for i := range posts {
+		result := collection.FindOne(ctx, bson.M{"url": posts[i].Url})
 
-		result := postsCollection.FindOne(ctx, bson.M{"url": posts[i].Url})
-		var p data.Post
-		err := result.Decode(&p)
-		if err != nil {
-			postsCollection.InsertOne(ctx, posts[i].BsonM())
+		if result.Err() != nil {
+			collection.InsertOne(ctx, posts[i].BsonM())
 		}
-
 	}
-
 }
