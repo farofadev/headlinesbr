@@ -1,13 +1,41 @@
 package data
 
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
+)
+
 type Portal struct {
-	Id               int    `json:"id"`
+	Id               uint   `json:"id"`
 	Name             string `json:"name"`
 	Description      string `json:"description"`
 	Url              string `json:"url"`
 	HeadlineSelector string `json:"-"`
-	Headline         string `json:"headline"`
 }
+
+type Post struct {
+	PortalId  uint      `json:"portal_id"`
+	Title     string    `json:"title"`
+	Url       string    `json:"url"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+func (p *Post) BsonM() bson.M {
+
+	return bson.M{
+		"portal_id":  p.PortalId,
+		"title":      p.Title,
+		"url":        p.Url,
+		"created_at": p.CreatedAt,
+	}
+
+}
+
+// func (p *Post) MakeHash() {
+// 	hash := md5.Sum([]byte(p.Url))
+// 	p.Hash = hex.EncodeToString(hash[:])
+// }
 
 var Portals []Portal
 
@@ -18,6 +46,7 @@ func init() {
 		Folha,
 		Veja,
 		Estadao,
+		Terra,
 	}
 }
 
@@ -25,7 +54,8 @@ var Globo = Portal{
 	Id:               1,
 	Name:             "Globo.com",
 	Url:              "https://globo.com",
-	HeadlineSelector: "body > section.highlight-container.hui-container.hui-spacing > div.highlight-container__left-area.highlight-main.headline > div > a > h3",
+	HeadlineSelector: "body > section.highlight-container.hui-container.hui-spacing > div.highlight-container__left-area.highlight-main > div > a > h3",
+	//HeadlineSelector: "body > section.highlight-container.hui-container.hui-spacing > div.highlight-container__left-area.highlight-main.headline > div > a > h3",
 }
 
 var Uol = Portal{
@@ -54,4 +84,11 @@ var Estadao = Portal{
 	Name:             "Jornal O Estado de São Paulo",
 	Url:              "https://www.estadao.com.br/",
 	HeadlineSelector: "#wrapper > section.breaking-news > div > div > div:nth-child(1) > article > div > div > div > div.intro > a > h3",
+}
+
+var Terra = Portal{
+	Id:               6,
+	Name:             "Portal Terra",
+	Url:              "https://www.terra.com.br/",
+	HeadlineSelector: "div.card-premium__left > h2 > a",
 }

@@ -1,0 +1,39 @@
+version: "3"
+
+volumes:
+  mongo-data:
+
+services:
+  app:
+    build:
+      context: .
+    restart: unless-stopped
+    command:
+      - bash
+      - -c
+      - "go get && gow -e=go,env,html run main.go"
+    logging:
+      options:
+        max-size: "500k"
+        max-file: "2"
+    volumes:
+      - ./:/go/src/app
+    ports:
+      - ${FORWARD_APP_PORT:-8080}:8080
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: farofa
+
+  mongo-express:
+    image: mongo-express
+    restart: unless-stopped
+    ports:
+      - ${FORWARD_MONGO_EXPRESS_PORT:-8081}:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: farofa
