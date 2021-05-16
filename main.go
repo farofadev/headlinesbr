@@ -37,14 +37,14 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	collection := client.Database("headlinesbr").Collection("posts")
 	results, _ := collection.Find(ctx, bson.M{})
-	bsonM := []bson.M{}
+	posts := []data.Post{}
 
-	results.All(ctx, &bsonM)
+	results.All(ctx, &posts)
 
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-	enc.Encode(bsonM)
+	enc.Encode(posts)
 }
 
 // ScrapeHeadlines Scrape headlines from web
@@ -92,7 +92,7 @@ func StoreHeadlines(posts []data.Post) {
 		result := collection.FindOne(ctx, bson.M{"url": posts[i].Url})
 
 		if result.Err() != nil {
-			collection.InsertOne(ctx, posts[i].BsonM())
+			collection.InsertOne(ctx, posts[i])
 		}
 	}
 }

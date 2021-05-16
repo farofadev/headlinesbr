@@ -2,34 +2,22 @@ package data
 
 import (
 	"time"
-
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 type Portal struct {
-	Id               uint   `json:"id"`
-	Name             string `json:"name"`
-	Description      string `json:"description"`
-	Url              string `json:"url"`
-	HeadlineSelector string `json:"-"`
+	Id               uint   `json:"id,omitempty" bson:"_id,omitempty"`
+	Name             string `json:"name" bson:"name"`
+	Description      string `json:"description" bson:"description"`
+	Url              string `json:"url" bson:"url"`
+	HeadlineSelector string `json:"-" bson:"-"`
 }
 
 type Post struct {
-	PortalId  uint      `json:"portal_id"`
-	Title     string    `json:"title"`
-	Url       string    `json:"url"`
-	CreatedAt time.Time `json:"created_at"`
-}
-
-func (p *Post) BsonM() bson.M {
-
-	return bson.M{
-		"portal_id":  p.PortalId,
-		"title":      p.Title,
-		"url":        p.Url,
-		"created_at": p.CreatedAt,
-	}
-
+	Id        string    `json:"id,omitempty" bson:"_id,omitempty"`
+	PortalId  uint      `json:"portal_id" bson:"portal_id"`
+	Title     string    `json:"title" bson:"title"`
+	Url       string    `json:"url" bson:"url"`
+	CreatedAt time.Time `json:"created_at" bson:"created_at"`
 }
 
 // func (p *Post) MakeHash() {
