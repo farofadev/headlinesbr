@@ -1,7 +1,16 @@
 package data
 
 import (
+	"context"
+	"strings"
+	"sync"
 	"time"
+
+	"github.com/farofadev/headlinesbr/config"
+	"github.com/farofadev/headlinesbr/database"
+	"github.com/gocolly/colly"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Portal struct {
@@ -58,4 +67,95 @@ var Portals = []Portal{
 		Url:              "https://www.terra.com.br/",
 		HeadlineSelector: "div.card-premium__left > h2 > a",
 	},
+	{
+		Id:               7,
+		Name:             "Metrópole",
+		Url:              "https://www.metro1.com.br/",
+		HeadlineSelector: "body > div > main section:nth-child(1) article div a",
+	},
+}
+
+func ScrapeAndStoreHeadlines(portals []Portal) *[]Post {
+	results := ScrapeHeadlines(portals)
+
+	StoreHeadlines(*results)
+
+	return results
+}
+
+// ScrapeHeadlines Scrape headlines from web
+func ScrapeHeadlines(portals []Portal) *[]Post {
+	wg := sync.WaitGroup{}
+	total := len(Portals)
+	posts := make([]Post, 0, total)
+
+	wg.Add(total)
+
+	for index := range portals {
+		go func(i int) {
+			portal := &portals[i]
+			collector := colly.NewCollector()
+			collector.SetRequestTimeout(30 * time.Second)
+
+			collector.OnHTML(portal.HeadlineSelector, func(element *colly.HTMLElement) {
+				link := element.DOM
+
+				if !element.DOM.Is("a") {
+					link = element.DOM.Closest("a")
+				}
+
+				post := Post{
+					PortalId:  portal.Id,
+					Title:     strings.Trim(element.Text, "\n\t\r "),
+					Url:       link.AttrOr("href", ""),
+					CreatedAt: time.Now(),
+				}
+
+				posts = append(posts, post)
+			})
+
+			collector.Visit(portal.Url)
+			wg.Done()
+		}(index)
+	}
+
+	wg.Wait()
+
+	return &posts
+}
+
+// StoreHeadlines Save headlines into database
+func StoreHeadlines(posts []Post) {
+	ctx := context.Background()
+	client, _ := database.GetClient(ctx)
+
+	defer client.Disconnect(ctx)
+
+	collection := client.Database(config.Database).Collection("posts")
+
+	for i := range posts {
+		result := collection.FindOne(ctx, bson.M{"url": posts[i].Url})
+
+		if result.Err() != nil {
+			collection.InsertOne(ctx, posts[i])
+		}
+	}
+}
+
+func FetchHeadlines() *[]Post {
+	ctx := context.Background()
+	client, _ := database.GetClient(ctx)
+
+	defer client.Disconnect(ctx)
+
+	collection := client.Database(config.Database).Collection("posts")
+	results, _ := collection.Find(ctx, bson.M{}, options.Find().SetSort(bson.M{"created_at": -1}))
+
+	defer results.Close(ctx)
+
+	posts := []Post{}
+
+	results.All(ctx, &posts)
+
+	return &posts
 }
