@@ -15,6 +15,7 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/julienschmidt/httprouter"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var dbname = os.Getenv("MONGO_DATABASE")
@@ -53,7 +54,7 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	defer client.Disconnect(ctx)
 
 	collection := client.Database(dbname).Collection("posts")
-	results, _ := collection.Find(ctx, bson.M{})
+	results, _ := collection.Find(ctx, bson.M{}, options.Find().SetSort(bson.M{"created_at": -1}))
 
 	defer results.Close(ctx)
 
