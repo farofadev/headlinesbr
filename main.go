@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -16,7 +17,20 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+var dbname = os.Getenv("MONGO_DATABASE")
+
+func scheduler() {
+	for {
+		time.Sleep(1 * time.Minute)
+
+		log.Println("Running scheduled task: ScrapeHeadlines")
+		go ScrapeHeadlines(data.Portals)
+	}
+}
+
 func main() {
+	go scheduler()
+
 	router := httprouter.New()
 	router.GET("/", Index)
 	router.GET("/headlines", FetchHeadlines)
@@ -38,8 +52,11 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	defer client.Disconnect(ctx)
 
-	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("posts")
+	collection := client.Database(dbname).Collection("posts")
 	results, _ := collection.Find(ctx, bson.M{})
+
+	defer results.Close(ctx)
+
 	posts := []data.Post{}
 
 	results.All(ctx, &posts)
@@ -92,7 +109,7 @@ func StoreHeadlines(posts []data.Post) {
 
 	defer client.Disconnect(ctx)
 
-	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("posts")
+	collection := client.Database(dbname).Collection("posts")
 
 	for i := range posts {
 		result := collection.FindOne(ctx, bson.M{"url": posts[i].Url})

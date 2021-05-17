@@ -8,10 +8,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetClient(ctx context.Context) (*mongo.Client, error) {
-	config := options.Client()
+var Config *options.ClientOptions
 
-	config.SetAuth(options.Credential{
+func init() {
+	Config = options.Client()
+
+	Config.SetAuth(options.Credential{
 		Username: os.Getenv("MONGO_USERNAME"),
 		Password: os.Getenv("MONGO_PASSWORD"),
 	})
@@ -20,10 +22,12 @@ func GetClient(ctx context.Context) (*mongo.Client, error) {
 		os.Getenv("MONGO_HOST"),
 	}
 
-	config.SetHosts(hosts)
+	Config.SetHosts(hosts)
+}
 
+func GetClient(ctx context.Context) (*mongo.Client, error) {
 	return mongo.Connect(
 		ctx,
-		config,
+		Config,
 	)
 }
