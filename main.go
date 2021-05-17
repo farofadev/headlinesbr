@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"os"
 	"strings"
 	"sync"
 	"time"
@@ -35,7 +36,7 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	ctx := context.Background()
 	client, _ := database.GetClient(ctx)
 
-	collection := client.Database("headlinesbr").Collection("posts")
+	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("posts")
 	results, _ := collection.Find(ctx, bson.M{})
 	posts := []data.Post{}
 
@@ -86,7 +87,7 @@ func ScrapeHeadlines(portals []data.Portal) *[]data.Post {
 func StoreHeadlines(posts []data.Post) {
 	ctx := context.Background()
 	client, _ := database.GetClient(ctx)
-	collection := client.Database("headlinesbr").Collection("posts")
+	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("posts")
 
 	for i := range posts {
 		result := collection.FindOne(ctx, bson.M{"url": posts[i].Url})

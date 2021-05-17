@@ -17,6 +17,7 @@ services:
         max-size: "500k"
         max-file: "2"
     environment:
+      MONGO_DATABASE: ${MONGO_DATABASE:-headlinesbr}
       MONGO_HOST: ${MONGO_HOST:-mongo:27017}
       MONGO_USERNAME: ${MONGO_USERNAME:-root}
       MONGO_PASSWORD: ${MONGO_PASSWORD:-farofa}
@@ -24,6 +25,8 @@ services:
       - ./:/go/src/app
     ports:
       - ${FORWARD_APP_PORT:-8080}:8080
+    depends_on:
+      - mongo
   mongo:
     image: mongo
     restart: unless-stopped
