@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"log"
 	"strings"
 	"sync"
 	"time"
@@ -122,10 +123,18 @@ func ScrapeHeadlines(portals []Portal) *[]Post {
 					link = element.DOM.Closest("a")
 				}
 
+				href := link.AttrOr("href", "")
+
+				if !strings.HasPrefix(href, "http://") && !strings.HasPrefix(href, "https://") {
+					log.Println("Fixing url: ", href)
+
+					href = strings.TrimRight(portal.Url, "/") + "/" + strings.TrimLeft(href, "/")
+				}
+
 				post := Post{
 					PortalId:  portal.Id,
 					Title:     strings.Trim(element.Text, "\n\t\r "),
-					Url:       link.AttrOr("href", ""),
+					Url:       href,
 					CreatedAt: time.Now(),
 				}
 
