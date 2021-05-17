@@ -79,6 +79,12 @@ var Portals = []Portal{
 		Url:              "https://exame.com",
 		HeadlineSelector: "#abril_home_box_widget-101 > div.widget-box.widget-home-box.widget-box- > div.hide_thumb.widget-home-box-list-item.type-post.item-size-g > div > a.widget-home-box-list-item-title > h2",
 	},
+	{
+		Id:               9,
+		Name:             "Correio24Horas",
+		Url:              "https://correio24horas.com.br",
+		HeadlineSelector: "#CW9220 > div.destaque-responsivo__container-info > div > a",
+	},
 }
 
 func ScrapeAndStoreHeadlines(portals []Portal) *[]Post {
