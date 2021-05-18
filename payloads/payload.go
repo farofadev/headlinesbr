@@ -50,7 +50,7 @@ func WithMeta(meta map[string]interface{}) func(payload *Payload) *Payload {
 	}
 }
 
-func WithAddMeta(key string, value interface{}) func(payload *Payload) *Payload {
+func AddMeta(key string, value interface{}) func(payload *Payload) *Payload {
 	return func(payload *Payload) *Payload {
 		return payload.AddMeta(key, value)
 	}

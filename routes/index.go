@@ -13,7 +13,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	posts := data.FetchHeadlines()
 
 	payload := payloads.NewPayload(
-		payloads.WithAddMeta("total", len(*posts)),
+		payloads.AddMeta("total", len(*posts)),
 		payloads.WithData(posts),
 	)
 
