@@ -91,6 +91,12 @@ var Portals = []Portal{
 		Url:              "https://www.metropoles.com",
 		HeadlineSelector: "#m-main > section.m-top-news > div > div > div.column.is-three-quarters-widescreen.is-full > article > div:nth-child(2) > div > h2 > a",
 	},
+	{
+		Id:               11,
+		Name:             "BNews",
+		Url:              "https://www.bnews.com.br/",
+		HeadlineSelector: "body > main > section.destaque > div > div > div > article.imageless > div > h3 > a",
+	},
 }
 
 func ScrapeAndStoreHeadlines(portals []Portal) *[]Post {
