@@ -110,6 +110,7 @@ func ScrapeAndStoreHeadlines(portals []Portal) *[]Post {
 // ScrapeHeadlines Scrape headlines from web
 func ScrapeHeadlines(portals []Portal) *[]Post {
 	wg := sync.WaitGroup{}
+	mutex := sync.Mutex{}
 	total := len(Portals)
 	posts := make([]Post, 0, total)
 
@@ -141,7 +142,9 @@ func ScrapeHeadlines(portals []Portal) *[]Post {
 					CreatedAt: time.Now(),
 				}
 
+				mutex.Lock()
 				posts = append(posts, post)
+				mutex.Unlock()
 			})
 
 			collector.Visit(portal.Url)
