@@ -95,7 +95,7 @@ var Portals = []Portal{
 		Id:               11,
 		Name:             "BNews",
 		Url:              "https://www.bnews.com.br/",
-		HeadlineSelector: "body > main > section.destaque > div > div > div > article.imageless > div > h3 > a",
+		HeadlineSelector: "h3.title a",
 	},
 }
 
