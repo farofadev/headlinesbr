@@ -17,7 +17,7 @@ import (
 type Portal struct {
 	Id               uint   `json:"id,omitempty" bson:"_id,omitempty"`
 	Name             string `json:"name" bson:"name"`
-	Description      string `json:"description" bson:"description"`
+	Description      string `json:"description,omitempty" bson:"description,omitempty"`
 	Url              string `json:"url" bson:"url"`
 	HeadlineSelector string `json:"-" bson:"-"`
 }
@@ -38,7 +38,6 @@ var Portals = []Portal{
 		Name:             "Globo.com",
 		Url:              "https://globo.com",
 		HeadlineSelector: "body > section.highlight-container.hui-container.hui-spacing > div.highlight-container__left-area.highlight-main > div > a > h3",
-		//HeadlineSelector: "body > section.highlight-container.hui-container.hui-spacing > div.highlight-container__left-area.highlight-main.headline > div > a > h3",
 	},
 	{
 		Id:               2,
