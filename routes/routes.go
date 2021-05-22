@@ -6,7 +6,7 @@ import (
 
 func Setup(router *httprouter.Router) *httprouter.Router {
 	router.GET("/", IndexHandler)
-	router.GET("/portals", PortalIndexHandler)
+	router.GET("/portals", PortalsIndexHandler)
 	router.GET("/headlines", HeadlinesHandler)
 
 	return router

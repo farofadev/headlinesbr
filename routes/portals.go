@@ -9,7 +9,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func PortalIndexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func PortalsIndexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	payload := payloads.NewPayload(
 		payloads.WithData(&data.Portals),
 	)
