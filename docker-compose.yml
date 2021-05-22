@@ -32,6 +32,8 @@ services:
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
+    ports:
+      - ${MONGO_FORWARD_PORT:-0}:27017
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-headlinesbr}
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-root}
