@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -28,6 +29,8 @@ type Post struct {
 	Url       string    `json:"url" bson:"url"`
 	CreatedAt time.Time `json:"created_at" bson:"created_at"`
 }
+
+var DefaultPerPage int64 = 25
 
 var Portals = []Portal{
 	{
@@ -175,14 +178,42 @@ func StoreHeadlines(posts []Post) {
 	}
 }
 
-func FetchHeadlines() *[]Post {
+func PageOffset(page, perPage int64) int64 {
+	if page < 1 {
+		return 0
+	}
+
+	return (page - 1) * perPage
+}
+
+func ParsePageAndPerPage(pageStr string, perPageStr string) (int64, int64) {
+	page, _ := strconv.ParseInt(pageStr, 10, 64)
+	perPage, _ := strconv.ParseInt(perPageStr, 10, 64)
+
+	if page < 1 {
+		page = 1
+	}
+
+	if perPage < 1 {
+		perPage = DefaultPerPage
+	}
+
+	return page, perPage
+}
+
+func FetchHeadlines(filters interface{}, findOptions *options.FindOptions) *[]Post {
 	ctx := context.Background()
 	client, _ := database.GetClient(ctx)
 
 	defer client.Disconnect(ctx)
 
 	collection := client.Database(config.Database).Collection("posts")
-	results, _ := collection.Find(ctx, bson.M{}, options.Find().SetSort(bson.M{"created_at": -1}))
+
+	results, _ := collection.Find(
+		ctx,
+		filters,
+		findOptions,
+	)
 
 	defer results.Close(ctx)
 
@@ -191,4 +222,15 @@ func FetchHeadlines() *[]Post {
 	results.All(ctx, &posts)
 
 	return &posts
+}
+
+func FindPortalById(portals *[]Portal, id uint) *Portal {
+	for _, portal := range *portals {
+
+		if portal.Id == id {
+			return &portal
+		}
+	}
+
+	return &Portal{}
 }
