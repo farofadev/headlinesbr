@@ -35,7 +35,7 @@ var DefaultPerPage int64 = 25
 var Portals = []Portal{
 	{
 		Id:               1,
-		Name:             "Globo.com",
+		Name:             "Globo",
 		Url:              "https://globo.com",
 		HeadlineSelector: "body > section.highlight-container.hui-container.hui-spacing > div.highlight-container__left-area.highlight-main > div > a > h3",
 	},
@@ -47,31 +47,31 @@ var Portals = []Portal{
 	},
 	{
 		Id:               3,
-		Name:             "Folha de São Paulo",
+		Name:             "Folha",
 		Url:              "https://www.folha.uol.com.br",
 		HeadlineSelector: ".c-main-headline__title",
 	},
 	{
 		Id:               4,
-		Name:             "Revista Veja",
+		Name:             "Veja",
 		Url:              "https://veja.com.br",
 		HeadlineSelector: "body > main > section.block.hard-news.light > div > div > div.col-s-12.col-l-9 > div.card.d > a:nth-child(1) > h2",
 	},
 	{
 		Id:               5,
-		Name:             "Jornal O Estado de São Paulo",
+		Name:             "Estadão",
 		Url:              "https://www.estadao.com.br/",
 		HeadlineSelector: "#wrapper > section.breaking-news > div > div > div:nth-child(1) > article > div > div > div > div.intro > a > h3",
 	},
 	{
 		Id:               6,
-		Name:             "Portal Terra",
+		Name:             "Terra",
 		Url:              "https://www.terra.com.br/",
 		HeadlineSelector: "div.card-premium__left > h2 > a",
 	},
 	{
 		Id:               7,
-		Name:             "Metrópole",
+		Name:             "Metro1",
 		Url:              "https://www.metro1.com.br/",
 		HeadlineSelector: "body > div > main section:nth-child(1) article div a",
 	},
@@ -83,7 +83,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               9,
-		Name:             "Correio24Horas",
+		Name:             "Correio",
 		Url:              "https://correio24horas.com.br",
 		HeadlineSelector: "#CW9220 > div.destaque-responsivo__container-info > div > a",
 	},
