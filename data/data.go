@@ -264,7 +264,6 @@ func FindPortalById(portals *[]Portal, id uint) *Portal {
 		portalsCache[id] = &portal
 
 		if portal.Id == id {
-			fmt.Println("Found from loop.")
 			return &portal
 		}
 	}
