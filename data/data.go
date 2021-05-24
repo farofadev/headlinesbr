@@ -114,6 +114,9 @@ var Portals = []Portal{
 	},
 }
 
+func init() {
+
+}
 func ScrapeAndStoreHeadlines(portals []Portal) *[]Post {
 	results := ScrapeHeadlines(portals)
 
@@ -233,16 +236,9 @@ func FetchHeadlines(filters interface{}, findOptions *options.FindOptions) *[]Po
 
 	results.All(ctx, &posts)
 
-	wg := sync.WaitGroup{}
-
-	wg.Add(len(posts))
-	go func() {
-		for i := range posts {
-			posts[i].Portal = FindPortalById(&Portals, posts[i].PortalId)
-			wg.Done()
-		}
-	}()
-	wg.Wait()
+	for i := range posts {
+		posts[i].Portal = FindPortalById(&Portals, posts[i].PortalId)
+	}
 
 	return &posts
 }
