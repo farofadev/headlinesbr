@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/farofadev/headlinesbr/routes"
 	"github.com/farofadev/headlinesbr/scheduler"
@@ -12,7 +13,12 @@ import (
 func main() {
 	go scheduler.Run()
 
-	router := routes.Setup(httprouter.New())
+	port := os.Getenv("SERVER_PORT")
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	if port == "" {
+		port = "8080"
+	}
+
+	router := routes.Setup(httprouter.New())
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }

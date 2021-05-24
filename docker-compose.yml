@@ -17,6 +17,7 @@ services:
         max-size: "500k"
         max-file: "2"
     environment:
+      SERVER_PORT: ${SERVER_PORT:-8080}
       MONGO_DATABASE: ${MONGO_DATABASE:-headlinesbr}
       MONGO_HOST: ${MONGO_HOST:-mongo:27017}
       MONGO_USERNAME: ${MONGO_USERNAME:-root}
