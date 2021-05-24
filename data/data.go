@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"strings"
 	"sync"
@@ -233,30 +234,42 @@ func FetchHeadlines(filters interface{}, findOptions *options.FindOptions) *[]Po
 
 	results.All(ctx, &posts)
 
-	for i := range posts {
-		posts[i].Portal = FindPortalById(&Portals, posts[i].PortalId)
-	}
+	wg := sync.WaitGroup{}
+
+	wg.Add(len(posts))
+	go func() {
+		for i := range posts {
+			posts[i].Portal = FindPortalById(&Portals, posts[i].PortalId)
+			wg.Done()
+		}
+	}()
+	wg.Wait()
 
 	return &posts
 }
 
 var portalsCache = make(map[uint]*Portal)
+var portalsCacheLoaded = false
 
 func FindPortalById(portals *[]Portal, id uint) *Portal {
 	if portal, found := portalsCache[id]; found {
 		return portal
 	}
 
-	for _, portal := range *portals {
-		if portal.Id == id {
-			portalsCache[id] = &portal
+	if portalsCacheLoaded {
+		return &Portal{}
+	}
 
+	for _, portal := range *portals {
+		portalsCache[id] = &portal
+
+		if portal.Id == id {
+			fmt.Println("Found from loop.")
 			return &portal
 		}
 	}
 
-	portal := &Portal{}
-	portalsCache[id] = portal
+	portalsCacheLoaded = true
 
-	return portal
+	return &Portal{}
 }
