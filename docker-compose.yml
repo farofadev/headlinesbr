@@ -33,6 +33,10 @@ services:
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
+    logging:
+      options:
+        max-size: "500k"
+        max-file: "2"
     ports:
       - ${MONGO_FORWARD_PORT:-0}:27017
     environment:
@@ -43,6 +47,10 @@ services:
   mongo-express:
     image: mongo-express
     restart: unless-stopped
+    logging:
+      options:
+        max-size: "500k"
+        max-file: "2"
     ports:
       - ${FORWARD_MONGO_EXPRESS_PORT:-8081}:8081
     environment:
