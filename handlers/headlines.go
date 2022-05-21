@@ -1,4 +1,4 @@
-package routes
+package handlers
 
 import (
 	"net/http"
@@ -9,6 +9,5 @@ import (
 
 func HeadlinesHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	data.ScrapeAndStoreHeadlines(data.Portals)
-
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

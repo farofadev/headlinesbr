@@ -14,8 +14,16 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+type Locale string
+
+const (
+	Brasil Locale = "Brasil"
+	Bahia  Locale = "Bahia"
+)
+
 type Portal struct {
 	Id               uint   `json:"id,omitempty" bson:"_id,omitempty"`
+	Locale           Locale `json:"locale"`
 	Name             string `json:"name" bson:"name"`
 	Description      string `json:"description,omitempty" bson:"description,omitempty"`
 	Color            string `json:"color,omitempty" bson:"color,omitempty"`
@@ -37,6 +45,7 @@ var DefaultPerPage int64 = 25
 var Portals = []Portal{
 	{
 		Id:               1,
+		Locale:           Brasil,
 		Name:             "globo.com",
 		Url:              "https://globo.com",
 		Color:            "#2f74aa",
@@ -44,6 +53,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               2,
+		Locale:           Brasil,
 		Name:             "UOL",
 		Color:            "#444444",
 		Url:              "https://uol.com.br",
@@ -51,6 +61,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               3,
+		Locale:           Brasil,
 		Name:             "Folha",
 		Color:            "#767e84",
 		Url:              "https://www.folha.uol.com.br",
@@ -58,6 +69,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               4,
+		Locale:           Brasil,
 		Name:             "Veja",
 		Color:            "#d74747",
 		Url:              "https://veja.com.br",
@@ -65,6 +77,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               5,
+		Locale:           Brasil,
 		Name:             "Estadão",
 		Color:            "#516c8b",
 		Url:              "https://www.estadao.com.br/",
@@ -72,6 +85,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               6,
+		Locale:           Brasil,
 		Name:             "Terra",
 		Color:            "#f9772f",
 		Url:              "https://www.terra.com.br/",
@@ -79,6 +93,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               7,
+		Locale:           Bahia,
 		Name:             "Metro1",
 		Color:            "#f9772f",
 		Url:              "https://www.metro1.com.br/",
@@ -86,6 +101,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               8,
+		Locale:           Bahia,
 		Name:             "Exame",
 		Color:            "#e52a12",
 		Url:              "https://exame.com",
@@ -93,6 +109,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               9,
+		Locale:           Bahia,
 		Name:             "Correio",
 		Color:            "#002142",
 		Url:              "https://correio24horas.com.br",
@@ -100,6 +117,7 @@ var Portals = []Portal{
 	},
 	{
 		Id:               10,
+		Locale:           Brasil,
 		Name:             "Metrópoles",
 		Color:            "yellow",
 		Url:              "https://www.metropoles.com",
@@ -107,10 +125,20 @@ var Portals = []Portal{
 	},
 	{
 		Id:               11,
+		Locale:           Bahia,
 		Name:             "BNews",
 		Color:            "red",
 		Url:              "https://www.bnews.com.br/",
 		HeadlineSelector: "h3.title a",
+	},
+
+	{
+		Id:               12,
+		Locale:           Brasil,
+		Name:             "BBC News Brasil",
+		Color:            "red",
+		Url:              "https://www.bbc.com/portuguese",
+		HeadlineSelector: "#main-wrapper > div > main > div > section:nth-child(1) > div.bbc-1dblbh1.e17m6msg1 > ul > li.e57qer20.bbc-1nfnx85.eom0ln51 > div > div.bbc-14gzkm2.e19k1v2h0 > h3 > a",
 	},
 }
 
