@@ -41,7 +41,6 @@ type Post struct {
 }
 
 var DefaultPerPage int64 = 25
-
 var Portals = []Portal{
 	{
 		Id:               1,
@@ -140,11 +139,17 @@ var Portals = []Portal{
 		Url:              "https://www.bbc.com/portuguese",
 		HeadlineSelector: "#main-wrapper > div > main > div > section:nth-child(1) > div.bbc-1dblbh1.e17m6msg1 > ul > li.e57qer20.bbc-1nfnx85.eom0ln51 > div > div.bbc-14gzkm2.e19k1v2h0 > h3 > a",
 	},
+
+	{
+		Id:               13,
+		Locale:           Brasil,
+		Name:             "R7",
+		Color:            "#218EE1",
+		Url:              "https://www.r7.com/",
+		HeadlineSelector: "#box_61d48b22cd77c0118500051a > div > div > div > div > article > h3 > a",
+	},
 }
 
-func init() {
-
-}
 func ScrapeAndStoreHeadlines(portals []Portal) *[]Post {
 	results := ScrapeHeadlines(portals)
 
