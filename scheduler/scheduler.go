@@ -4,14 +4,14 @@ import (
 	"log"
 	"time"
 
-	"github.com/farofadev/headlinesbr/data"
+	"github.com/farofadev/headlinesbr/model"
 )
 
 func Run() {
 	for {
-		time.Sleep(60 * time.Second)
+		time.Sleep(120 * time.Second)
 
 		log.Println("Running scheduled task: ScrapeHeadlines")
-		data.ScrapeAndStoreHeadlines(data.Portals)
+		model.ScrapeAndStoreHeadlines(model.Portals)
 	}
 }

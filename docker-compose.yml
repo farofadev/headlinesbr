@@ -1,7 +1,7 @@
 version: "3"
 
 volumes:
-  mongo-data:
+  mongo-model:
 
 services:
   app:
@@ -30,9 +30,9 @@ services:
       - mongo
   mongo:
     image: mongo
-    restart: unless-stopped
+    restart: "no"
     volumes:
-      - mongo-data:/data/db
+      - mongo-model:/model/db
     logging:
       options:
         max-size: "500k"
@@ -46,7 +46,7 @@ services:
 
   mongo-express:
     image: mongo-express
-    restart: unless-stopped
+    restart: "no"
     logging:
       options:
         max-size: "500k"

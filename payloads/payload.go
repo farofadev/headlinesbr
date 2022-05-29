@@ -3,7 +3,7 @@ package payloads
 type Payload struct {
 	Meta   map[string]interface{} `json:"meta,omitempty"`
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	Data   interface{}            `json:"data"`
+	Data   interface{}            `json:"model"`
 }
 
 type PayloadOption func(payload *Payload) *Payload
