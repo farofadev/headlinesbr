@@ -1,12 +1,14 @@
 package handlers
 
 import (
-	"encoding/json"
+	"net/http"
+	"strconv"
+
+	"github.com/goccy/go-json"
+
 	"github.com/farofadev/headlinesbr/payloads"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"net/http"
-	"strconv"
 
 	"github.com/farofadev/headlinesbr/model"
 	"github.com/julienschmidt/httprouter"

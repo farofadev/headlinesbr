@@ -1,8 +1,9 @@
 module github.com/farofadev/headlinesbr
 
-go 1.17
+go 1.19
 
 require (
+	github.com/goccy/go-json v0.9.11
 	github.com/gocolly/colly v1.2.0
 	github.com/julienschmidt/httprouter v1.3.0
 	go.mongodb.org/mongo-driver v1.5.2
