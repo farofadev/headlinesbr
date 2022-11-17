@@ -37,7 +37,7 @@ func getPortals() []Portal {
 			Name:             "globo.com",
 			Url:              "https://globo.com",
 			Color:            "#2f74aa",
-			HeadlineSelector: "body > section.highlight-container.hui-container.hui-spacing > div.highlight-container__left-area.highlight-main > div > a > h3",
+			HeadlineSelector: "body > section.highlight-container.hui-container > div > div > div.headline.post-main.theme-jornalismo.simple.has-bullets > div.headline__container > div > a > h2",
 		},
 		{
 			Id:               2,
@@ -69,7 +69,7 @@ func getPortals() []Portal {
 			Name:             "Estadão",
 			Color:            "#516c8b",
 			Url:              "https://www.estadao.com.br/",
-			HeadlineSelector: "#wrapper > section.breaking-news > div > div > div:nth-child(1) > article > div > div > div > div.intro > a > h3",
+			HeadlineSelector: "#fusion-app > div > div > div:nth-child(1) > div > div.col-12.col-xl-8 > div > div > a > h2",
 		},
 		{
 			Id:               6,
@@ -77,7 +77,7 @@ func getPortals() []Portal {
 			Name:             "Terra",
 			Color:            "#f9772f",
 			Url:              "https://www.terra.com.br/",
-			HeadlineSelector: "div.card-premium__left > h2 > a",
+			HeadlineSelector: "#card-9db49c6ae96180e2c309c88c2a177e50mzakis8e",
 		},
 		{
 			Id:               7,
@@ -89,7 +89,7 @@ func getPortals() []Portal {
 		},
 		{
 			Id:               8,
-			Locale:           Bahia,
+			Locale:           Brasil,
 			Name:             "Exame",
 			Color:            "#e52a12",
 			Url:              "https://exame.com",
@@ -107,7 +107,7 @@ func getPortals() []Portal {
 			Id:               10,
 			Locale:           Brasil,
 			Name:             "Metrópoles",
-			Color:            "yellow",
+			Color:            "#c32417",
 			Url:              "https://www.metropoles.com",
 			HeadlineSelector: "#m-main > section.m-top-news > div > div > div.column.is-three-quarters-widescreen.is-full > article > div:nth-child(2) > div > h2 > a",
 		},
@@ -126,9 +126,8 @@ func getPortals() []Portal {
 			Name:             "BBC News Brasil",
 			Color:            "red",
 			Url:              "https://www.bbc.com/portuguese",
-			HeadlineSelector: "#main-wrapper > div > main > div > section:nth-child(1) > div.bbc-1dblbh1.e17m6msg1 > ul > li.e57qer20.bbc-1nfnx85.eom0ln51 > div > div.bbc-14gzkm2.e19k1v2h0 > h3 > a",
+			HeadlineSelector: "#main-wrapper > div > main > div > section:nth-child(1) > div.bbc-1dblbh1.efnv93c1 > ul > li.ebmt73l0.bbc-mhiwdf.e13i2e3d1 > div > div.bbc-14gzkm2.e718b9o0 > h3 > a",
 		},
-
 		{
 			Id:               13,
 			Locale:           Brasil,
@@ -138,5 +137,4 @@ func getPortals() []Portal {
 			HeadlineSelector: "#box_61d48b22cd77c0118500051a > div > div > div > div > article > h3 > a",
 		},
 	}
-
 }
