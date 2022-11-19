@@ -39,14 +39,14 @@ func getPortals() []Portal {
 			Color:            "#2f74aa",
 			HeadlineSelector: "body > section.highlight-container.hui-container > div > div > div.headline.post-main.theme-jornalismo.simple.has-bullets > div.headline__container > div > a > h2",
 		},
-		{
-			Id:               2,
-			Locale:           Brasil,
-			Name:             "UOL",
-			Color:            "#444444",
-			Url:              "https://uol.com.br",
-			HeadlineSelector: "#corpo > div:nth-child(1) > div > div.topo-hibrido-central.centraliza.clearfix.bloco-editorial-topo-1 > div.topo-hibrido-hardnews > div.topo-hibrido-hardnews-destaque > div.mod-hibrido-manchete.area-default.manchete-editorial > a > h1",
-		},
+		//{
+		//	Id:               2,
+		//	Locale:           Brasil,
+		//	Name:             "UOL",
+		//	Color:            "#444444",
+		//	Url:              "https://uol.com.br",
+		//	HeadlineSelector: "",
+		//},
 		{
 			Id:               3,
 			Locale:           Brasil,
@@ -77,7 +77,7 @@ func getPortals() []Portal {
 			Name:             "Terra",
 			Color:            "#f9772f",
 			Url:              "https://www.terra.com.br/",
-			HeadlineSelector: "#card-9db49c6ae96180e2c309c88c2a177e50mzakis8e",
+			HeadlineSelector: "div.card-news__text > h2",
 		},
 		{
 			Id:               7,
@@ -135,6 +135,14 @@ func getPortals() []Portal {
 			Color:            "#218EE1",
 			Url:              "https://www.r7.com/",
 			HeadlineSelector: "#box_61d48b22cd77c0118500051a > div > div > div > div > article > h3 > a",
+		},
+		{
+			Id:               14,
+			Locale:           Brasil,
+			Name:             "CNN Brasil",
+			Color:            "#cc0000",
+			Url:              "https://www.cnnbrasil.com.br/",
+			HeadlineSelector: "#block1847327 > div > div > a > h2",
 		},
 	}
 }
